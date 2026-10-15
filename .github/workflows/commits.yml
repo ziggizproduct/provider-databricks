@@ -1,0 +1,31 @@
+# Ziggiz fork (arch#420): reports `commits / conventional`, the PR title check the org ruleset requires.
+# Inlined from ziggizproduct/ci commits.yml because this fork is public and ci is internal: GitHub does not let a
+# public repository call an internal repository's reusable workflow. Exit: archived with the fork.
+name: commits
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+permissions: {}
+
+jobs:
+  conventional:
+    name: commits / conventional
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          enable-cache: false
+
+      - name: Check PR title
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+          VERSION: 4.4.0
+        run: |
+          printf '%s\n' "$TITLE" >"$RUNNER_TEMP/title"
+          uvx --from "conventional-pre-commit==$VERSION" conventional-pre-commit \
+            --strict --no-color \
+            feat fix docs chore refactor test ci build perf revert style \
+            "$RUNNER_TEMP/title"

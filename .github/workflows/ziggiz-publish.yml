@@ -1,0 +1,114 @@
+# Ziggiz patched build (arch#420): builds the multi-arch Crossplane package (linux/amd64 + linux/arm64) from this
+# branch and pushes it to our partition ECR, then attests the digest. Run by hand from main (Actions > Run workflow).
+# The AWS role (root: github-provider-databricks-push) trusts only this file on main in environment `release`.
+# Exit: when glalanne/provider-databricks releases the fix (PR #143), pin upstream and archive this fork.
+name: ziggiz-publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Package tag, semver (upstream version plus -ziggiz.N), e.g. v2.5.3-ziggiz.1. ECR tags are immutable.
+        type: string
+        required: true
+
+permissions: {}
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    environment: release
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+      artifact-metadata: write
+    concurrency:
+      group: ziggiz-publish
+      cancel-in-progress: false
+    env:
+      VERSION: ${{ inputs.version }}
+      REGISTRY: 208297280013.dkr.ecr.us-east-2.amazonaws.com
+      REPOSITORY: ziggiz-platform/provider-databricks
+      AWS_REGION: us-east-2
+    steps:
+      - name: Check the version
+        run: |
+          set -euo pipefail
+          [[ "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+-ziggiz\.[0-9]+$ ]] || { echo "::error::version '$VERSION' is not vMAJOR.MINOR.PATCH-ziggiz.N"; exit 1; }
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          submodules: true
+          persist-credentials: false
+
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v6
+        with:
+          go-version-file: go.mod
+
+      - uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4
+        with:
+          platforms: all
+
+      - uses: docker/setup-buildx-action@v3 # tag-pinned like upstream ci.yml
+        with:
+          install: true
+
+      - uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
+        with:
+          role-to-assume: ${{ vars.ECR_PUSH_ROLE_ARN }}
+          aws-region: us-east-2
+          role-session-name: provider-databricks-publish-${{ github.run_id }}
+
+      # crossplane xpkg push and actions/attest read the docker credential store.
+      - uses: aws-actions/amazon-ecr-login@03f1aad4c6c7ffd436567f42f9384779290529bd # v2.1.7
+
+      - name: Fail if the version is already published
+        run: |
+          set -euo pipefail
+          if out=$(aws ecr describe-images --region "$AWS_REGION" --repository-name "$REPOSITORY" \
+            --image-ids "imageTag=$VERSION" --query 'imageDetails[0].imageDigest' --output text 2>&1); then
+            echo "::error::$REPOSITORY:$VERSION already exists ($out); the repository is immutable, bump -ziggiz.N"; exit 1
+          fi
+          grep -q ImageNotFoundException <<<"$out" || { echo "::error::could not check $REPOSITORY: $out"; exit 1; }
+
+      # build.all builds the runtime image and the .xpkg for every PLATFORMS entry (linux_amd64 linux_arm64).
+      - name: Build the package for both platforms
+        env:
+          BUILD_ARGS: --load
+        run: make -j2 VERSION="$VERSION" build.all
+
+      # crossplane xpkg push with one --package-files per platform makes one multi-arch index.
+      - name: Push the package
+        run: make VERSION="$VERSION" XPKG_REG_ORGS="$REGISTRY/ziggiz-platform" "xpkg.release.publish.$REGISTRY/ziggiz-platform.provider-databricks"
+
+      - name: Resolve and check the digest
+        id: digest
+        run: |
+          set -euo pipefail
+          digest=$(aws ecr describe-images --region "$AWS_REGION" --repository-name "$REPOSITORY" \
+            --image-ids "imageTag=$VERSION" --query 'imageDetails[0].imageDigest' --output text)
+          [[ "$digest" =~ ^sha256:[0-9a-f]{64}$ ]] || { echo "::error::no digest for $VERSION ($digest)"; exit 1; }
+          platforms=$(docker buildx imagetools inspect --raw "$REGISTRY/$REPOSITORY@$digest" |
+            jq -r '[.manifests[].platform | select(.os == "linux") | .os + "/" + .architecture] | sort | join(",")')
+          [ "$platforms" = "linux/amd64,linux/arm64" ] || { echo "::error::pushed index has $platforms"; exit 1; }
+          echo "digest=$digest" >> "$GITHUB_OUTPUT"
+
+      - name: Attest the digest
+        id: attest
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-name: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}
+          subject-digest: ${{ steps.digest.outputs.digest }}
+          push-to-registry: true
+
+      - name: Step summary
+        run: |
+          {
+            echo "## provider-databricks $VERSION"
+            echo
+            echo "package: \`$REGISTRY/$REPOSITORY:$VERSION@${{ steps.digest.outputs.digest }}\`"
+            echo "attestation: ${{ steps.attest.outputs.attestation-url }}"
+          } >> "$GITHUB_STEP_SUMMARY"

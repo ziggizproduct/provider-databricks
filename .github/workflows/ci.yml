@@ -258,7 +258,7 @@ jobs:
       - check-diff
       - unit-tests
       - local-deploy
-    if: needs.detect-noop.outputs.noop != 'true' && github.ref == 'refs/heads/main'
+    if: github.repository == 'glalanne/provider-databricks' && needs.detect-noop.outputs.noop != 'true' && github.ref == 'refs/heads/main'
     steps:
       - name: Setup QEMU
         uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4
@@ -355,7 +355,7 @@ jobs:
       - check-diff
       - unit-tests
       - local-deploy
-    if: needs.detect-noop.outputs.noop != 'true' && github.ref == 'refs/heads/alpha'
+    if: github.repository == 'glalanne/provider-databricks' && needs.detect-noop.outputs.noop != 'true' && github.ref == 'refs/heads/alpha'
     steps:
       - name: Setup QEMU
         uses: docker/setup-qemu-action@96fe6ef7f33517b61c61be40b68a1882f3264fb8 # v4
