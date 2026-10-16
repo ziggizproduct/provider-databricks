@@ -1,0 +1,20 @@
+extends: substitution
+message: "Write '%s' instead of '%s' (docs/glossary.md, Terms we don't use)."
+level: error
+ignorecase: true
+# Exceptions, each a correct use the glossary allows:
+# - a GitHub environment: "GitHub environment", "environment reviewer/gate/approval/secrets",
+#   "approval-gated environment", "environment-scoped", "Managing environments" (GitHub's page title)
+# - a named one: "the `foundation` environment", "environment `sub`" (Vale masks code spans with asterisks)
+# - an environment variable, a serverless "base environment", a build "environment type"
+# - the AWS CloudShell "VPC environment", the AWS "EKS Auth" API and the Databricks auth type
+swap:
+  '(?<!GitHub )(?<!GitHub-)(?<!serverless base )(?<!Managing )(?<!gated )(?<!VPC )(?<!\* )\benvironments?\b(?! (?:variables?|required|reviewers?|gates?|approvals?|secrets?|types?)| \*|-scoped)': partition
+  '\bmanagement clusters?\b': control plane cluster
+  '\bplatform services?\b': partition services
+  '\bshared systems?\b': partition services
+  '\bworkload clusters?\b': cell cluster
+  '\bTalos clusters?\b': cell cluster
+  '\bdata-plane tenants?\b': tenant
+  '\bsign-in tenants?\b': organization
+  '(?<!Better )(?<!EKS )(?<!/)\bauth\b(?!/|\.abzyx| (?:service|worker|type))': identity service

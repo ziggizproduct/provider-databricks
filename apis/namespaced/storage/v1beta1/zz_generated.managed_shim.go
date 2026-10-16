@@ -55,4 +55,3 @@ func (mg *Mount) SetConditions(c ...xpv2.Condition) {
 func (mg *Mount) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
-

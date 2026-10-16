@@ -14,11 +14,11 @@ metadata:
 spec:
   forProvider:
     columns:
-    - type
-    - message
-    - details
-    - date
-    - time
+      - type
+      - message
+      - details
+      - date
+      - time
     description: A stream of security related events in the critical services.
     entityType: Topic
     name: security_events_stream

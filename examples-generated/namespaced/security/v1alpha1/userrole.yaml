@@ -21,7 +21,6 @@ spec:
         testing.upbound.io/example-name: my_user
 
 ---
-
 apiVersion: deployment.databricks.m.crossplane.io/v1alpha1
 kind: InstanceProfile
 metadata:
@@ -36,7 +35,6 @@ spec:
     instanceProfileArn: my_instance_profile_arn
 
 ---
-
 apiVersion: security.databricks.m.crossplane.io/v1alpha1
 kind: User
 metadata:

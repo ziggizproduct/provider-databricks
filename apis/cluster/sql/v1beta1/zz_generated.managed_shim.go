@@ -167,4 +167,3 @@ func (mg *SQLWidget) SetConditions(c ...xpv2.Condition) {
 func (mg *SQLWidget) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
-

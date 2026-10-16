@@ -11,7 +11,7 @@ metadata:
     meta.crossplane.io/readme: |
       `provider-databricks` is a community provider to manage [Databricks](https://www.databricks.com/) resources.
 
-      The new version 2.5.0 of the provider offers full support of Databricks resources with API version v1beta1. 
+      The new version 2.5.0 of the provider offers full support of Databricks resources with API version v1beta1.
       The provider is now compatible with Crossplane runtime v2.x.x and the new Crossplane CLI.
 
       Major changes include:
@@ -20,7 +20,7 @@ metadata:
 
       v1alpha1 resources are still available but will be deprecated in the future major release. Please migrate to v1beta1 resources.
 
-      This provider is using the Databricks Terraform provider under the hood. 
+      This provider is using the Databricks Terraform provider under the hood.
       For more information about the resources and their fields, please refer to the [Databricks Terraform provider documentation](https://registry.terraform.io/providers/databricks/databricks/latest/docs).
 
       If you encounter an issue or want to report a new feature,please create an issue in

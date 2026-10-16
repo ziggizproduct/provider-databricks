@@ -16,11 +16,10 @@ spec:
     name: My Dashboard Name
     parent: folders/${databricks_directory.shared_dir.object_id}
     tags:
-    - some-tag
-    - another-tag
+      - some-tag
+      - another-tag
 
 ---
-
 apiVersion: workspace.databricks.m.crossplane.io/v1alpha1
 kind: Directory
 metadata:

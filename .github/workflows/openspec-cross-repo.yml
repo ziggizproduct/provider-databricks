@@ -1,0 +1,51 @@
+# Workspace standard, copied from ziggizproduct/arch. Do not edit in product
+# repos. Resolves cross-repo `Proves:` keys for the advisory `openspec` check
+# (ziggizproduct/ci openspec change resolve-cross-repo-proves-keys, design.md
+# "Key-scoping decision"; ci's docs/workflows/openspec.md).
+#
+# A separate file because it carries the read-only GitHub App key. It runs
+# only as a `workflow_run` follow-up of the `openspec` workflow: GitHub runs
+# it from the default branch's copy, which a pull request cannot edit, and
+# the `cross-repo-reader` environment releases its secret only to the default
+# branch. It checks out the pull request head as DATA and executes none of it.
+# No other trigger may be added here, and no `pull_request_target` workflow
+# may name `cross-repo-reader`.
+name: openspec-cross-repo
+
+on:
+  workflow_run:
+    workflows: [openspec]
+    types: [completed]
+
+permissions: {}
+
+jobs:
+  cross-repo:
+    # Same-repo pull request runs only: never a fork, a push or a cancelled run.
+    if: >-
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion != 'cancelled' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: cross-repo-reader
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
+      # Last step before the action. Never skip-token-revoke: the post step
+      # revokes the token when the job ends. Only the action's clone step
+      # (git and Python, no OpenSpec CLI) receives it; the report step does not.
+      - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        id: app
+        with:
+          app-id: ${{ vars.CROSS_REPO_APP_ID }}
+          private-key: ${{ secrets.CROSS_REPO_APP_KEY }}
+          repositories: abzyx.dev,abzyx.dev-commercial-controlplane,abzyx.dev-commercial-ziggiz,arch,ci,identity,tenant-controller,tofu-modules,web,ziggiz-platform
+          permission-contents: read
+      - uses: ziggizproduct/ci/.github/actions/openspec@44b9850f7b42cde8f7b04708cbf6ebfc6a946e5e # ci main, #138
+        with:
+          cross-repo-token: ${{ steps.app.outputs.token }}

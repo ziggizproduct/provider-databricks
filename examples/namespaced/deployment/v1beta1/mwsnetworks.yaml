@@ -19,6 +19,6 @@ spec:
     networkName: ${local.prefix}-network
     provider: ${databricks.mws}
     securityGroupIds:
-    - ${module.vpc.default_security_group_id}
+      - ${module.vpc.default_security_group_id}
     subnetIds: ${module.vpc.private_subnets}
     vpcId: ${module.vpc.vpc_id}

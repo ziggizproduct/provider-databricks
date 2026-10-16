@@ -21,7 +21,6 @@ spec:
     schema: app_replicated
 
 ---
-
 apiVersion: postgres.databricks.m.crossplane.io/v1beta1
 kind: PostgresBranch
 metadata:
@@ -41,7 +40,6 @@ spec:
       noExpiry: true
 
 ---
-
 apiVersion: postgres.databricks.m.crossplane.io/v1beta1
 kind: PostgresDatabase
 metadata:
@@ -61,7 +59,6 @@ spec:
       postgresDatabase: app_db
 
 ---
-
 apiVersion: postgres.databricks.m.crossplane.io/v1beta1
 kind: PostgresProject
 metadata:

@@ -19,7 +19,6 @@ spec:
     lifetimeSeconds: 3600
 
 ---
-
 apiVersion: security.databricks.crossplane.io/v1alpha1
 kind: Permissions
 metadata:
@@ -31,14 +30,13 @@ metadata:
 spec:
   forProvider:
     accessControl:
-    - permissionLevel: CAN_USE
-      servicePrincipalNameSelector:
-        matchLabels:
-          testing.upbound.io/example-name: this
+      - permissionLevel: CAN_USE
+        servicePrincipalNameSelector:
+          matchLabels:
+            testing.upbound.io/example-name: this
     authorization: tokens
 
 ---
-
 apiVersion: security.databricks.crossplane.io/v1alpha1
 kind: ServicePrincipal
 metadata:

@@ -14,13 +14,13 @@ metadata:
 spec:
   forProvider:
     condition:
-    - op: GREATER_THAN
-      operand:
-      - column:
-        - name: value
-      threshold:
-      - value:
-        - doubleValue: 42
+      - op: GREATER_THAN
+        operand:
+          - column:
+              - name: value
+        threshold:
+          - value:
+              - doubleValue: 42
     displayName: TF new alert
     parentPathSelector:
       matchLabels:
@@ -30,7 +30,6 @@ spec:
         testing.upbound.io/example-name: this
 
 ---
-
 apiVersion: workspace.databricks.m.crossplane.io/v1alpha1
 kind: Directory
 metadata:
@@ -45,7 +44,6 @@ spec:
     path: /Shared/Queries
 
 ---
-
 apiVersion: sql.databricks.m.crossplane.io/v1alpha1
 kind: Query
 metadata:

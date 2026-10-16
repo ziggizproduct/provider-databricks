@@ -13,11 +13,11 @@ metadata:
 spec:
   forProvider:
     privilegeAssignments:
-    - principal: serge@example.com
-      privileges:
-      - SELECT
-      - MODIFY
-    - principal: special group
-      privileges:
-      - SELECT
+      - principal: serge@example.com
+        privileges:
+          - SELECT
+          - MODIFY
+      - principal: special group
+        privileges:
+          - SELECT
     table: foo

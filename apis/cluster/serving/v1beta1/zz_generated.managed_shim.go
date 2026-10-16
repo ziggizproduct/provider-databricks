@@ -23,4 +23,3 @@ func (mg *ModelServing) SetConditions(c ...xpv2.Condition) {
 func (mg *ModelServing) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
-

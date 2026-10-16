@@ -15,9 +15,9 @@ spec:
   forProvider:
     name: custom_integration_name
     redirectUrls:
-    - https://example.com
+      - https://example.com
     scopes:
-    - all-apis
+      - all-apis
     tokenAccessPolicy:
-    - accessTokenTtlInMinutes: 15
-      refreshTokenTtlInMinutes: 30
+      - accessTokenTtlInMinutes: 15
+        refreshTokenTtlInMinutes: 30

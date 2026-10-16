@@ -15,4 +15,3 @@ cmd/managedshim/__debug*
 .env
 kubeconfig
 .datasource.yaml
-

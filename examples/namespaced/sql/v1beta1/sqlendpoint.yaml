@@ -18,5 +18,5 @@ spec:
     name: Endpoint of ${data.databricks_current_user.me.alphanumeric}
     tags:
       customTags:
-      - key: City
-        value: Amsterdam
+        - key: City
+          value: Amsterdam

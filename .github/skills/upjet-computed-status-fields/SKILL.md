@@ -108,10 +108,12 @@ Nested fields require extra care. The override above changes only the top-level 
 
 ## Regenerate And Validate
 
-1. Run the repository's normal generation target after the configuration change: 
+1. Run the repository's normal generation target after the configuration change:
+
    ```sh
    make generate
    ```
+
    Consult `make help` if the target is not known in the current checkout.
 
 2. Validate the generated types. The affected top-level field must be absent from both `*Parameters` and `*InitParameters`, while remaining in `*Observation`:

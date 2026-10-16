@@ -16,7 +16,6 @@ spec:
     instanceProfileArn: ${aws_iam_instance_profile.shared.arn}
 
 ---
-
 apiVersion: compute.databricks.m.crossplane.io/v1beta1
 kind: Cluster
 metadata:

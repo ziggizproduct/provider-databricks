@@ -20,13 +20,12 @@ spec:
         storageSchema: default
       postgresDatabase: app_db
       primaryKeyColumns:
-      - user_id
+        - user_id
       schedulingPolicy: SNAPSHOT
       sourceTableFullName: main.default.users
     syncedTableId: app_catalog.default.users_synced
 
 ---
-
 apiVersion: postgres.databricks.crossplane.io/v1beta1
 kind: PostgresBranch
 metadata:
@@ -45,7 +44,6 @@ spec:
       noExpiry: true
 
 ---
-
 apiVersion: postgres.databricks.crossplane.io/v1beta1
 kind: PostgresCatalog
 metadata:
@@ -63,7 +61,6 @@ spec:
       postgresDatabase: app_db
 
 ---
-
 apiVersion: postgres.databricks.crossplane.io/v1beta1
 kind: PostgresProject
 metadata:

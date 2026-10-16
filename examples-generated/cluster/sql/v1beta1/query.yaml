@@ -22,7 +22,6 @@ spec:
         testing.upbound.io/example-name: example
 
 ---
-
 apiVersion: workspace.databricks.crossplane.io/v1beta1
 kind: Directory
 metadata:

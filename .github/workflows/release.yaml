@@ -1,9 +1,9 @@
 name: Releases
 
-on: 
+on:
   push:
     tags:
-    - 'v*'
+      - "v*"
 
 jobs:
   build:
@@ -11,10 +11,10 @@ jobs:
     permissions:
       contents: write
     steps:
-    - uses: actions/checkout@v5
-    - run: ./hack/merge-crds.sh
-    - uses: ncipollo/release-action@v1
-      with:
-        allowUpdates: true
-        artifacts: "dist/*"
-        body: "See https://github.com/glalanne/provider-databricks/pkgs/container/provider-databricks for OCI images."
+      - uses: actions/checkout@v5
+      - run: ./hack/merge-crds.sh
+      - uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: "dist/*"
+          body: "See https://github.com/glalanne/provider-databricks/pkgs/container/provider-databricks for OCI images."

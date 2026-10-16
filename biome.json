@@ -1,0 +1,15 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "files": {
+    "includes": ["**", "!**/worker-configuration.d.ts", "!**/migrations"]
+  },
+  "formatter": { "indentStyle": "space", "indentWidth": 2, "lineWidth": 120 },
+  "linter": { "enabled": true, "rules": { "preset": "recommended" } },
+  "css": { "linter": { "enabled": true } },
+  "overrides": [
+    { "includes": ["**/test/**"], "linter": { "rules": { "style": { "noNonNullAssertion": "off" } } } },
+    { "includes": ["**/*.css"], "linter": { "rules": { "complexity": { "noImportantStyles": "off" } } } }
+  ],
+  "assist": { "actions": { "source": { "organizeImports": "on" } } }
+}

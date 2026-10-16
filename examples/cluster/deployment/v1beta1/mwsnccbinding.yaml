@@ -19,7 +19,6 @@ spec:
     workspaceId: ${var.databricks_workspace_id}
 
 ---
-
 apiVersion: deployment.databricks.crossplane.io/v1beta1
 kind: MwsNetworkConnectivityConfig
 metadata:

@@ -14,10 +14,9 @@ spec:
   forProvider:
     aibiDashboardEmbeddingApprovedDomains:
       approvedDomains:
-      - test.com
+        - test.com
 
 ---
-
 apiVersion: settings.databricks.crossplane.io/v1beta1
 kind: AibiDashboardEmbeddingAccessPolicySetting
 metadata:

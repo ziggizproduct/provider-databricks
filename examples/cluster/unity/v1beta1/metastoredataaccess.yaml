@@ -21,7 +21,6 @@ spec:
     name: ${aws_iam_role.metastore_data_access.name}
 
 ---
-
 apiVersion: unity.databricks.crossplane.io/v1beta1
 kind: Metastore
 metadata:

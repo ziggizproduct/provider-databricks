@@ -23,4 +23,3 @@ func (mg *DatabaseInstance) SetConditions(c ...xpv2.Condition) {
 func (mg *DatabaseInstance) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
-

@@ -21,7 +21,6 @@ spec:
     resourceId: /subscriptions/653bb673-1234-abcd-a90b-d064d5d53ca4/resourcegroups/example-resource-group/providers/Microsoft.Storage/storageAccounts/examplesa
 
 ---
-
 apiVersion: deployment.databricks.m.crossplane.io/v1alpha1
 kind: MwsNetworkConnectivityConfig
 metadata:

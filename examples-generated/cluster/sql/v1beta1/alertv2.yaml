@@ -19,7 +19,7 @@ spec:
       notification:
         notifyOnOk: true
         subscriptions:
-        - userEmail: user@example.com
+          - userEmail: user@example.com
       source:
         aggregation: COUNT
         display: Error Count

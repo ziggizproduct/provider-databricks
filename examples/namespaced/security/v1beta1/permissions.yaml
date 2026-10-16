@@ -14,24 +14,23 @@ metadata:
 spec:
   forProvider:
     accessControl:
-    - groupNameSelector:
-        matchLabels:
-          testing.upbound.io/example-name: e2e-group-auto
-      permissionLevel: CAN_ATTACH_TO
-    - groupNameSelector:
-        matchLabels:
-          testing.upbound.io/example-name: e2e-group-eng
-      permissionLevel: CAN_RESTART
-    - groupNameSelector:
-        matchLabels:
-          testing.upbound.io/example-name: e2e-group-ds
-      permissionLevel: CAN_MANAGE
+      - groupNameSelector:
+          matchLabels:
+            testing.upbound.io/example-name: e2e-group-auto
+        permissionLevel: CAN_ATTACH_TO
+      - groupNameSelector:
+          matchLabels:
+            testing.upbound.io/example-name: e2e-group-eng
+        permissionLevel: CAN_RESTART
+      - groupNameSelector:
+          matchLabels:
+            testing.upbound.io/example-name: e2e-group-ds
+        permissionLevel: CAN_MANAGE
     clusterIdSelector:
       matchLabels:
         testing.upbound.io/example-name: e2e-namespaced-cluster-security
 
 ---
-
 apiVersion: compute.databricks.m.crossplane.io/v1beta1
 kind: Cluster
 metadata:
@@ -52,7 +51,6 @@ spec:
     sparkVersion: "18.x-scala2.13" # Databricks Runtime version, see https://docs.databricks.com/runtime/releases.html
 
 ---
-
 apiVersion: security.databricks.m.crossplane.io/v1beta1
 kind: Group
 metadata:
@@ -67,7 +65,6 @@ spec:
     displayName: E2E Automation
 
 ---
-
 apiVersion: security.databricks.m.crossplane.io/v1beta1
 kind: Group
 metadata:
@@ -82,7 +79,6 @@ spec:
     displayName: E2EData Science
 
 ---
-
 apiVersion: security.databricks.m.crossplane.io/v1beta1
 kind: Group
 metadata:

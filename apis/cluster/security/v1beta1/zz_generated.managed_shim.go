@@ -359,4 +359,3 @@ func (mg *UserRole) SetConditions(c ...xpv2.Condition) {
 func (mg *UserRole) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
-

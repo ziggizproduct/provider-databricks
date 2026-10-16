@@ -1,0 +1,28 @@
+# Workspace standard, copied from ziggizproduct/arch. Do not edit in product
+# repos. A subproject that needs different settings (say an older Python)
+# adds its own ruff.toml starting with `extend = "<path to root>/ruff.toml"`.
+line-length = 120
+target-version = "py312"
+
+[format]
+docstring-code-format = true
+
+[lint]
+# Default (E4, E7, E9, F) plus high-signal, auto-fixable rule sets.
+extend-select = [
+  "B",    # bugbear: likely bugs
+  "I",    # isort
+  "UP",   # pyupgrade
+  "SIM",  # simplify
+  "C4",   # comprehensions
+  "RUF",  # ruff-specific
+  "S",    # bandit: security
+  "PTH",  # pathlib over os.path
+]
+ignore = [
+  "S101",  # assert is fine (pytest)
+]
+
+[lint.per-file-ignores]
+"**/tests/**" = ["S"]
+"**/test_*.py" = ["S"]

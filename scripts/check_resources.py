@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 
-import os
-import sys
 import glob
+import os
 from pathlib import Path
-from typing import List
 
-backlist_resources: List[str] = [
+backlist_resources: list[str] = [
     "online_store",
     "feature_engineering_kafka_config",
     "warehouses_default_warehouse_override",
@@ -24,7 +22,7 @@ backlist_resources: List[str] = [
     "feature_engineering_feature",  # Private Preview
     "postgres_data_api",  # Private Preview,
     "mws_private_access_settings",
-    "database_synced_database_table", # Private Preview,
+    "database_synced_database_table",  # Private Preview,
 ]
 
 resource_groups = {
@@ -106,9 +104,7 @@ def generate_provider_go_imports(scope: str, base_name: str) -> None:
     provider_file = Path("config") / scope / "provider.go"
     with open(provider_file, "r+", encoding="utf-8") as f:
         content = f.read()
-        import_statement = (
-            f'\t"github.com/glalanne/provider-databricks/config/{scope}/{base_name}"\n'
-        )
+        import_statement = f'\t"github.com/glalanne/provider-databricks/config/{scope}/{base_name}"\n'
         add_config_line = f"\tProviderConfiguration.AddConfig({base_name}.Configure)\n"
 
         if import_statement not in content:
@@ -117,11 +113,7 @@ def generate_provider_go_imports(scope: str, base_name: str) -> None:
             if last_import_index != -1:
                 end_of_imports = content.find(")", last_import_index)
                 if end_of_imports != -1:
-                    content = (
-                        content[:end_of_imports]
-                        + import_statement
-                        + content[end_of_imports:]
-                    )
+                    content = content[:end_of_imports] + import_statement + content[end_of_imports:]
 
         if add_config_line not in content:
             # Insert the AddConfig line before the closing brace of the Configure function
@@ -129,11 +121,7 @@ def generate_provider_go_imports(scope: str, base_name: str) -> None:
             if configure_function_index != -1:
                 closing_brace_index = content.find("}", configure_function_index)
                 if closing_brace_index != -1:
-                    content = (
-                        content[:closing_brace_index]
-                        + add_config_line
-                        + content[closing_brace_index:]
-                    )
+                    content = content[:closing_brace_index] + add_config_line + content[closing_brace_index:]
 
         f.seek(0)
         f.write(content)
@@ -151,9 +139,7 @@ def generate_resource_config_go(scope: str, base_name: str, group_name: str) -> 
     cluster_path.mkdir(parents=True, exist_ok=True)
     config_file = cluster_path / "config.go"
 
-    if config_file.exists() and not prompt_yes_no(
-        f"{config_file} already exists. Overwrite? [y/n]: "
-    ):
+    if config_file.exists() and not prompt_yes_no(f"{config_file} already exists. Overwrite? [y/n]: "):
         print(f"Skipped existing file: {config_file}")
         return False
     else:
@@ -179,23 +165,20 @@ if __name__ == "__main__":
             # print(f"Resource '{base_name}' is blacklisted. Skipping.")
             continue
 
-        if not os.path.exists(
-            f"config/cluster/{base_name}/config.go"
-        ) or not os.path.exists(f"config/namespaced/{base_name}/config.go"):
+        if not os.path.exists(f"config/cluster/{base_name}/config.go") or not os.path.exists(
+            f"config/namespaced/{base_name}/config.go"
+        ):
             resources_to_process.append(base_name)
             print(f"Resource '{base_name}' needs config generation. Adding to processing list.")
 
     for base_name in resources_to_process:
-
         if base_name not in resource_groups:
-            group_name = prompt_non_empty(
-                f"Enter short group for '{base_name}' (e.g. clusters, jobs, secrets): "
-            )
+            group_name = prompt_non_empty(f"Enter short group for '{base_name}' (e.g. clusters, jobs, secrets): ")
         else:
             group_name = resource_groups[base_name]
 
         print(f"Generating config for resource '{base_name}' with group '{group_name}'.")
-        
+
         generate_resource_config_go("cluster", base_name, group_name)
         generate_resource_config_go("namespaced", base_name, group_name)
 
@@ -205,7 +188,7 @@ if __name__ == "__main__":
     print("------------------------------")
 
     external_names = ""
-    with open("config/external_name.go", "r") as file:
+    with open("config/external_name.go") as file:
         external_names = file.read()
 
     new_external_names = []

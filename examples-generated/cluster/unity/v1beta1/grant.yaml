@@ -17,5 +17,5 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: example
     privileges:
-    - CREATE_CATALOG
-    - CREATE_EXTERNAL_LOCATION
+      - CREATE_CATALOG
+      - CREATE_EXTERNAL_LOCATION

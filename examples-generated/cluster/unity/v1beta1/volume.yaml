@@ -26,7 +26,6 @@ spec:
     volumeType: EXTERNAL
 
 ---
-
 apiVersion: unity.databricks.crossplane.io/v1beta1
 kind: Catalog
 metadata:
@@ -43,7 +42,6 @@ spec:
       purpose: testing
 
 ---
-
 apiVersion: unity.databricks.crossplane.io/v1beta1
 kind: ExternalLocation
 metadata:
@@ -61,7 +59,6 @@ spec:
     url: s3://${aws_s3_bucket.external.id}/some
 
 ---
-
 apiVersion: unity.databricks.crossplane.io/v1beta1
 kind: Schema
 metadata:
@@ -81,7 +78,6 @@ spec:
       kind: various
 
 ---
-
 apiVersion: unity.databricks.crossplane.io/v1beta1
 kind: StorageCredential
 metadata:

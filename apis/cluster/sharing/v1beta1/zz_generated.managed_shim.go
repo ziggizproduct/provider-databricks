@@ -55,4 +55,3 @@ func (mg *Share) SetConditions(c ...xpv2.Condition) {
 func (mg *Share) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
-

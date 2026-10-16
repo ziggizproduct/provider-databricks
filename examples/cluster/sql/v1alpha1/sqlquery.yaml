@@ -17,26 +17,26 @@ spec:
         testing.upbound.io/example-name: example
     name: My Query Name
     parameter:
-    - name: p1
-      text:
-      - value: default
-      title: Title for p1
-    - enum:
-      - multiple:
-        - prefix: '"'
-          separator: ','
-          suffix: '"'
-        options:
-        - default
-        - foo
-        - bar
-        value: default
-      name: p2
-      title: Title for p2
-    - date:
-      - value: "2022-01-01"
-      name: p3
-      title: Title for p3
+      - name: p1
+        text:
+          - value: default
+        title: Title for p1
+      - enum:
+          - multiple:
+              - prefix: '"'
+                separator: ","
+                suffix: '"'
+            options:
+              - default
+              - foo
+              - bar
+            value: default
+        name: p2
+        title: Title for p2
+      - date:
+          - value: "2022-01-01"
+        name: p3
+        title: Title for p3
     parent: folders/${databricks_directory.shared_dir.object_id}
     query: |2
                               SELECT {{ p1 }} AS p1
@@ -45,11 +45,10 @@ spec:
                               AND event_date > date '{{ p3 }}'
     runAsRole: viewer
     tags:
-    - t1
-    - t2
+      - t1
+      - t2
 
 ---
-
 apiVersion: workspace.databricks.crossplane.io/v1alpha1
 kind: Directory
 metadata:

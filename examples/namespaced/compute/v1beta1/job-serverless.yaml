@@ -16,7 +16,6 @@ spec:
     path: /Shared/e2e-crossplane-serverless-hello-world
 
 ---
-
 apiVersion: compute.databricks.m.crossplane.io/v1beta1
 kind: Job
 metadata:
@@ -32,34 +31,34 @@ spec:
     name: E2E Serverless Test Pipeline
     environment:
       - environmentKey: dbtDev
-        spec: 
+        spec:
           client: "1"
           dependencies:
             - "dbt-databricks>=1.6.0" # Databricks recommends >= 1.6.0
     task:
-    - dbtTask:
-        commands:
-        - dbt run
-        projectDirectory: /Workspace/Shared/e2e-hello-world-dbt-project
-        warehouseIdRef:
-          name: serverless-hello-world
-        source: WORKSPACE
-      taskKey: hello-world-3
-      environmentKey: dbtDev
-    - notebookTask:
-        notebookPathSelector:
-          matchLabels:
-            testing.upbound.io/example-name: serverless-hello-world-notebook
-        source: WORKSPACE
-      taskKey: hello-world-1
-    - dependsOn:
-      - taskKey: hello-world-1
-      notebookTask:
-        notebookPathSelector:
-          matchLabels:
-            testing.upbound.io/example-name: serverless-hello-world-notebook
-        source: WORKSPACE
-      taskKey: hello-world-2
+      - dbtTask:
+          commands:
+            - dbt run
+          projectDirectory: /Workspace/Shared/e2e-hello-world-dbt-project
+          warehouseIdRef:
+            name: serverless-hello-world
+          source: WORKSPACE
+        taskKey: hello-world-3
+        environmentKey: dbtDev
+      - notebookTask:
+          notebookPathSelector:
+            matchLabels:
+              testing.upbound.io/example-name: serverless-hello-world-notebook
+          source: WORKSPACE
+        taskKey: hello-world-1
+      - dependsOn:
+          - taskKey: hello-world-1
+        notebookTask:
+          notebookPathSelector:
+            matchLabels:
+              testing.upbound.io/example-name: serverless-hello-world-notebook
+          source: WORKSPACE
+        taskKey: hello-world-2
     tags:
       env: dev
       purpose: e2e
@@ -83,10 +82,10 @@ spec:
     name: E2E Serverless Test Pipeline
     tags:
       customTags:
-      - key: env
-        value: dev
-      - key: purpose
-        value: e2e
+        - key: env
+          value: dev
+        - key: purpose
+          value: e2e
 ---
 apiVersion: compute.databricks.m.crossplane.io/v1beta1
 kind: Pipeline
@@ -106,12 +105,11 @@ spec:
     continuous: false
 
     library:
-    - notebook:
-        pathSelector:
-          matchLabels:
-            testing.upbound.io/example-name: serverless-hello-world-notebook-dlt
-    
-    
+      - notebook:
+          pathSelector:
+            matchLabels:
+              testing.upbound.io/example-name: serverless-hello-world-notebook-dlt
+
 ---
 apiVersion: workspace.databricks.m.crossplane.io/v1beta1
 kind: Notebook

@@ -15,5 +15,5 @@ spec:
     config:
       email:
         addresses:
-        - abc@gmail.com
+          - abc@gmail.com
     displayName: Notification Destination

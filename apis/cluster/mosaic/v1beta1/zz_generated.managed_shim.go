@@ -39,4 +39,3 @@ func (mg *VectorSearchIndex) SetConditions(c ...xpv2.Condition) {
 func (mg *VectorSearchIndex) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
-

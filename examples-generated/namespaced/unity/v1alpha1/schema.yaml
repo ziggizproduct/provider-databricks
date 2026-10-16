@@ -22,7 +22,6 @@ spec:
       kind: various
 
 ---
-
 apiVersion: unity.databricks.m.crossplane.io/v1alpha1
 kind: Catalog
 metadata:

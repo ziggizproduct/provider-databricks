@@ -21,7 +21,6 @@ spec:
         testing.upbound.io/example-name: b
 
 ---
-
 apiVersion: security.databricks.m.crossplane.io/v1beta1
 kind: Group
 metadata:
@@ -36,7 +35,6 @@ spec:
     displayName: A
 
 ---
-
 apiVersion: security.databricks.m.crossplane.io/v1beta1
 kind: Group
 metadata:
@@ -51,7 +49,6 @@ spec:
     displayName: B
 
 ---
-
 apiVersion: security.databricks.m.crossplane.io/v1beta1
 kind: User
 metadata:

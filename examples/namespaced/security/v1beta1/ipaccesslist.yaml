@@ -14,14 +14,13 @@ metadata:
 spec:
   forProvider:
     ipAddresses:
-    - 1.1.1.1
-    - 1.2.3.0/24
-    - 1.2.5.0/24
+      - 1.1.1.1
+      - 1.2.3.0/24
+      - 1.2.5.0/24
     label: allow_in
     listType: ALLOW
 
 ---
-
 apiVersion: workspace.databricks.m.crossplane.io/v1beta1
 kind: WorkspaceConf
 metadata:

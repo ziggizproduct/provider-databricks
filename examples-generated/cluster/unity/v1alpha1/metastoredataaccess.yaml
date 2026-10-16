@@ -13,7 +13,7 @@ metadata:
 spec:
   forProvider:
     awsIamRole:
-    - roleArn: ${aws_iam_role.metastore_data_access.arn}
+      - roleArn: ${aws_iam_role.metastore_data_access.arn}
     isDefault: true
     metastoreIdSelector:
       matchLabels:
@@ -21,7 +21,6 @@ spec:
     name: ${aws_iam_role.metastore_data_access.name}
 
 ---
-
 apiVersion: unity.databricks.crossplane.io/v1alpha1
 kind: Metastore
 metadata:

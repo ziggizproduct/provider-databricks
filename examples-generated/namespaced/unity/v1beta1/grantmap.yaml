@@ -14,16 +14,16 @@ metadata:
 spec:
   forProvider:
     grant:
-    - principalSelector:
-        matchLabels:
-          testing.upbound.io/example-name: example
-      privileges:
-      - CREATE_CATALOG
-      - CREATE_EXTERNAL_LOCATION
-    - principalSelector:
-        matchLabels:
-          testing.upbound.io/example-name: example
-      privileges:
-      - CREATE_RECIPIENT
-      - CREATE_SHARE
+      - principalSelector:
+          matchLabels:
+            testing.upbound.io/example-name: example
+        privileges:
+          - CREATE_CATALOG
+          - CREATE_EXTERNAL_LOCATION
+      - principalSelector:
+          matchLabels:
+            testing.upbound.io/example-name: example
+        privileges:
+          - CREATE_RECIPIENT
+          - CREATE_SHARE
     metastore: metastore_id

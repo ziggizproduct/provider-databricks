@@ -359,4 +359,3 @@ func (mg *WorkspaceBinding) SetConditions(c ...xpv2.Condition) {
 func (mg *WorkspaceBinding) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
-

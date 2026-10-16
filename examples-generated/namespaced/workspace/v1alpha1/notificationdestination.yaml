@@ -14,7 +14,7 @@ metadata:
 spec:
   forProvider:
     config:
-    - email:
-      - addresses:
-        - abc@gmail.com
+      - email:
+          - addresses:
+              - abc@gmail.com
     displayName: Notification Destination

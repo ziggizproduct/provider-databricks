@@ -20,7 +20,6 @@ spec:
         testing.upbound.io/example-name: instance_profile
 
 ---
-
 apiVersion: security.databricks.crossplane.io/v1alpha1
 kind: Group
 metadata:
@@ -34,7 +33,6 @@ spec:
     displayName: my_group_name
 
 ---
-
 apiVersion: deployment.databricks.crossplane.io/v1alpha1
 kind: InstanceProfile
 metadata:

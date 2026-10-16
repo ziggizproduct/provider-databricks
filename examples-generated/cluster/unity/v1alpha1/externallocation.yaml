@@ -20,7 +20,6 @@ spec:
     url: s3://${aws_s3_bucket.external.id}/some
 
 ---
-
 apiVersion: unity.databricks.crossplane.io/v1alpha1
 kind: GrantMap
 metadata:
@@ -35,15 +34,14 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: some
     grant:
-    - principalSelector:
-        matchLabels:
-          testing.upbound.io/example-name: example
-      privileges:
-      - CREATE_EXTERNAL_TABLE
-      - READ_FILES
+      - principalSelector:
+          matchLabels:
+            testing.upbound.io/example-name: example
+        privileges:
+          - CREATE_EXTERNAL_TABLE
+          - READ_FILES
 
 ---
-
 apiVersion: unity.databricks.crossplane.io/v1alpha1
 kind: StorageCredential
 metadata:
@@ -55,6 +53,6 @@ metadata:
 spec:
   forProvider:
     awsIamRole:
-    - roleArn: ${aws_iam_role.external_data_access.arn}
+      - roleArn: ${aws_iam_role.external_data_access.arn}
     comment: Managed by TF
     name: ${aws_iam_role.external_data_access.name}

@@ -13,6 +13,6 @@ metadata:
 spec:
   forProvider:
     permissions:
-    - USER
+      - USER
     principalId: ${data.databricks_user.me.id}
     provider: ${databricks.workspace}

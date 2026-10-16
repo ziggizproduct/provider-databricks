@@ -13,24 +13,23 @@ metadata:
 spec:
   forProvider:
     accessControl:
-    - groupNameSelector:
-        matchLabels:
-          testing.upbound.io/example-name: auto
-      permissionLevel: CAN_ATTACH_TO
-    - groupNameSelector:
-        matchLabels:
-          testing.upbound.io/example-name: eng
-      permissionLevel: CAN_RESTART
-    - groupNameSelector:
-        matchLabels:
-          testing.upbound.io/example-name: ds
-      permissionLevel: CAN_MANAGE
+      - groupNameSelector:
+          matchLabels:
+            testing.upbound.io/example-name: auto
+        permissionLevel: CAN_ATTACH_TO
+      - groupNameSelector:
+          matchLabels:
+            testing.upbound.io/example-name: eng
+        permissionLevel: CAN_RESTART
+      - groupNameSelector:
+          matchLabels:
+            testing.upbound.io/example-name: ds
+        permissionLevel: CAN_MANAGE
     clusterIdSelector:
       matchLabels:
         testing.upbound.io/example-name: shared_autoscaling
 
 ---
-
 apiVersion: compute.databricks.crossplane.io/v1beta1
 kind: Cluster
 metadata:
@@ -50,7 +49,6 @@ spec:
     sparkVersion: ${data.databricks_spark_version.latest.id}
 
 ---
-
 apiVersion: security.databricks.crossplane.io/v1beta1
 kind: Group
 metadata:
@@ -64,7 +62,6 @@ spec:
     displayName: Automation
 
 ---
-
 apiVersion: security.databricks.crossplane.io/v1beta1
 kind: Group
 metadata:
@@ -78,7 +75,6 @@ spec:
     displayName: Data Science
 
 ---
-
 apiVersion: security.databricks.crossplane.io/v1beta1
 kind: Group
 metadata:

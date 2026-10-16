@@ -55,4 +55,3 @@ func (mg *MlflowWebhook) SetConditions(c ...xpv2.Condition) {
 func (mg *MlflowWebhook) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
-

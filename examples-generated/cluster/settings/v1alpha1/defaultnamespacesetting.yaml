@@ -13,4 +13,4 @@ metadata:
 spec:
   forProvider:
     namespace:
-    - value: namespace_value
+      - value: namespace_value

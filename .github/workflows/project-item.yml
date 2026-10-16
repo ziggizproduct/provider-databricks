@@ -1,0 +1,21 @@
+# Workspace standard, copied from ziggizproduct/arch. Do not edit in product
+# repos. Adds every new issue and pull request to org project #1 within
+# seconds (arch#420). pull_request_target runs this file from the base branch
+# and never checks out the PR; the job only passes the item URL to the project.
+# The hourly sweep in ziggizproduct/abzyx.dev stays as the backstop.
+name: project-item
+
+on:
+  issues:
+    types: [opened, reopened, transferred]
+  pull_request_target:
+    types: [opened, reopened]
+
+permissions: {}
+
+jobs:
+  add:
+    permissions:
+      contents: read
+      id-token: write
+    uses: ziggizproduct/ci/.github/workflows/project-add-item.yml@main

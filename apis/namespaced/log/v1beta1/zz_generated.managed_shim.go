@@ -23,4 +23,3 @@ func (mg *MwsLogDelivery) SetConditions(c ...xpv2.Condition) {
 func (mg *MwsLogDelivery) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
-

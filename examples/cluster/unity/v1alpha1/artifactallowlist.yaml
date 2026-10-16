@@ -13,6 +13,6 @@ metadata:
 spec:
   forProvider:
     artifactMatcher:
-    - artifact: /Volumes/inits
-      matchType: PREFIX_MATCH
+      - artifact: /Volumes/inits
+        matchType: PREFIX_MATCH
     artifactType: INIT_SCRIPT

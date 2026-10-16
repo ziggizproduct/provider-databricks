@@ -17,4 +17,4 @@ spec:
       keyAlias: ${aws_kms_alias.managed_services_customer_managed_key_alias.name}
       keyArn: ${aws_kms_key.managed_services_customer_managed_key.arn}
     useCases:
-    - MANAGED_SERVICES
+      - MANAGED_SERVICES

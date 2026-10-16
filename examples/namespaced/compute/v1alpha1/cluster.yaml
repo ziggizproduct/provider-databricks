@@ -14,10 +14,9 @@ metadata:
 spec:
   forProvider:
     autoscale:
-    - maxWorkers: 1
-      minWorkers: 1
+      - maxWorkers: 1
+        minWorkers: 1
     autoterminationMinutes: 20
     clusterName: "Crossplane E2E Cluster 003"
     nodeTypeId: "Standard_D3_v2" # Azure VM type, see https://docs.microsoft.com/en-us/azure/virtual-machines/sizes
     sparkVersion: "18.x-scala2.13" # Databricks Runtime version, see https://docs.databricks.com/runtime/releases.html
-

@@ -17,7 +17,6 @@ spec:
     region: ${var.region}
 
 ---
-
 apiVersion: deployment.databricks.crossplane.io/v1beta1
 kind: MwsNccBinding
 metadata:

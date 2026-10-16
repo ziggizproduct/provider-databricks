@@ -18,8 +18,10 @@ import json
 import os
 import subprocess
 import sys
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Any, Iterable
+from typing import Any
+
 
 @dataclass
 class Change:
@@ -33,7 +35,11 @@ def run_git(args: list[str]) -> str:
         check=False,
         text=True,
         capture_output=True,
-        env={**os.environ, "GIT_CONFIG_GLOBAL": os.environ.get("GIT_CONFIG_GLOBAL", "/dev/null"), "GIT_CONFIG_NOSYSTEM": os.environ.get("GIT_CONFIG_NOSYSTEM", "1")},
+        env={
+            **os.environ,
+            "GIT_CONFIG_GLOBAL": os.environ.get("GIT_CONFIG_GLOBAL", "/dev/null"),
+            "GIT_CONFIG_NOSYSTEM": os.environ.get("GIT_CONFIG_NOSYSTEM", "1"),
+        },
     )
     if cp.returncode != 0:
         raise RuntimeError(cp.stderr.strip() or cp.stdout.strip())
@@ -105,7 +111,9 @@ def compare_crd(base_crd: dict[str, Any], head_crd: dict[str, Any], path: str) -
     hnames = hspec.get("names", {})
     for nkey in ("kind", "plural", "singular"):
         if bnames.get(nkey) != hnames.get(nkey):
-            changes.append(Change("FAIL", f"{path}: spec.names.{nkey} changed ({bnames.get(nkey)} -> {hnames.get(nkey)})"))
+            changes.append(
+                Change("FAIL", f"{path}: spec.names.{nkey} changed ({bnames.get(nkey)} -> {hnames.get(nkey)})")
+            )
 
     bversions = version_map(base_crd)
     hversions = version_map(head_crd)
@@ -125,10 +133,14 @@ def compare_crd(base_crd: dict[str, Any], head_crd: dict[str, Any], path: str) -
 
         # storage version flips are not always breaking, but can signal migration risk.
         if bool(bv.get("storage", False)) != bool(hv.get("storage", False)):
-            changes.append(Change("WARN", f"{path}: version '{v}' storage flag changed ({bv.get('storage')} -> {hv.get('storage')})"))
+            changes.append(
+                Change(
+                    "WARN", f"{path}: version '{v}' storage flag changed ({bv.get('storage')} -> {hv.get('storage')})"
+                )
+            )
 
-        bschema = ((bv.get("schema") or {}).get("openAPIV3Schema"))
-        hschema = ((hv.get("schema") or {}).get("openAPIV3Schema"))
+        bschema = (bv.get("schema") or {}).get("openAPIV3Schema")
+        hschema = (hv.get("schema") or {}).get("openAPIV3Schema")
         if isinstance(bschema, dict) and isinstance(hschema, dict):
             compare_schema(path, v, "$", bschema, hschema, changes)
 
@@ -147,7 +159,9 @@ def num(v: Any) -> float | None:
     return None
 
 
-def compare_schema(path: str, version: str, spath: str, b: dict[str, Any], h: dict[str, Any], out: list[Change]) -> None:
+def compare_schema(
+    path: str, version: str, spath: str, b: dict[str, Any], h: dict[str, Any], out: list[Change]
+) -> None:
     loc = f"{path} [{version}] {spath}"
 
     # Type changes are generally breaking.

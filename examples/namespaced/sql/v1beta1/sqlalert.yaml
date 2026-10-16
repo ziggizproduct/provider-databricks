@@ -26,7 +26,6 @@ spec:
     rearm: 1
 
 ---
-
 apiVersion: workspace.databricks.m.crossplane.io/v1beta1
 kind: Directory
 metadata:
@@ -41,7 +40,6 @@ spec:
     path: /Shared/Queries
 
 ---
-
 apiVersion: sql.databricks.m.crossplane.io/v1beta1
 kind: SQLQuery
 metadata:

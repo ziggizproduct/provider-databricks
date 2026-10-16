@@ -25,7 +25,6 @@ spec:
         testing.upbound.io/example-name: log_bucket
 
 ---
-
 apiVersion: deployment.databricks.crossplane.io/v1beta1
 kind: MwsCredentials
 metadata:
@@ -41,7 +40,6 @@ spec:
     roleArn: ${aws_iam_role.logdelivery.arn}
 
 ---
-
 apiVersion: deployment.databricks.crossplane.io/v1beta1
 kind: MwsStorageConfigurations
 metadata:

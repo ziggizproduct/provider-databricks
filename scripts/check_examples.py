@@ -42,7 +42,7 @@ def load_crd_type(t):
     kind = t["spec"]["names"]["kind"]
     group = t["spec"]["group"]
     for v in t["spec"]["versions"]:
-        yield f'{kind}.{group}/{v["name"]}'
+        yield f"{kind}.{group}/{v['name']}"
 
 
 exception_set = {
@@ -62,12 +62,8 @@ exception_set = {
 
 # Example usage: check_examples.py <CRD dir> <example manifests dir> [--fix-missing]
 if __name__ == "__main__":
-    if len(sys.argv) not in (3, 4) or (
-        len(sys.argv) == 4 and sys.argv[3] != "--fix-missing"
-    ):
-        print(
-            "Example usage: check_examples.py <CRD dir> <example manifests dir> [--fix-missing]"
-        )
+    if len(sys.argv) not in (3, 4) or (len(sys.argv) == 4 and sys.argv[3] != "--fix-missing"):
+        print("Example usage: check_examples.py <CRD dir> <example manifests dir> [--fix-missing]")
         sys.exit(1)
     crd_dir = sys.argv[1]
     examples_dir = sys.argv[2]
@@ -76,9 +72,7 @@ if __name__ == "__main__":
     example_types = load_gvks(
         examples_dir,
         lambda t: (
-            []
-            if t is None or not {"kind", "apiVersion"}.issubset(t.keys())
-            else [f'{t["kind"]}.{t["apiVersion"]}']
+            [] if t is None or not {"kind", "apiVersion"}.issubset(t.keys()) else [f"{t['kind']}.{t['apiVersion']}"]
         ),
     )
     diff = known_crd_types.difference(example_types.union(exception_set))
@@ -95,9 +89,7 @@ if __name__ == "__main__":
         generated_types = load_gvks(
             generated_dir,
             lambda t: (
-                []
-                if t is None or not {"kind", "apiVersion"}.issubset(t.keys())
-                else [f'{t["kind"]}.{t["apiVersion"]}']
+                [] if t is None or not {"kind", "apiVersion"}.issubset(t.keys()) else [f"{t['kind']}.{t['apiVersion']}"]
             ),
         )
         for source, destination in copy_missing_files(generated_dir, examples_dir):
@@ -108,9 +100,7 @@ if __name__ == "__main__":
         example_types = load_gvks(
             examples_dir,
             lambda t: (
-                []
-                if t is None or not {"kind", "apiVersion"}.issubset(t.keys())
-                else [f'{t["kind"]}.{t["apiVersion"]}']
+                [] if t is None or not {"kind", "apiVersion"}.issubset(t.keys()) else [f"{t['kind']}.{t['apiVersion']}"]
             ),
         )
         diff = known_crd_types.difference(example_types.union(exception_set))

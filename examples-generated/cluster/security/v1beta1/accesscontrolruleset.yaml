@@ -13,13 +13,12 @@ metadata:
 spec:
   forProvider:
     grantRules:
-    - principalsRefs:
-      - name: databricks_group
-      role: roles/servicePrincipal.user
+      - principalsRefs:
+          - name: databricks_group
+        role: roles/servicePrincipal.user
     name: accounts/${local.account_id}/servicePrincipals/${databricks_service_principal.automation_sp.application_id}/ruleSets/default
 
 ---
-
 apiVersion: security.databricks.crossplane.io/v1beta1
 kind: ServicePrincipal
 metadata:

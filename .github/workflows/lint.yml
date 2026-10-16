@@ -1,0 +1,18 @@
+# Workspace standard, copied from ziggizproduct/arch. Do not edit in product
+# repos. Reports the `lint / pre-commit` check every default branch requires
+# (docs/standards/engineering/formatting-and-linting.md in arch); steps live in
+# ziggizproduct/ci so every repo checks the same way.
+name: lint
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    uses: ziggizproduct/ci/.github/workflows/lint.yml@main

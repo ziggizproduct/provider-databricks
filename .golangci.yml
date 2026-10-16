@@ -1,126 +1,36 @@
+# Workspace standard, copied from ziggizproduct/arch. Do not edit in product
+# repos. golangci-lint v2: `golangci-lint fmt` formats, `golangci-lint run --fix` lints.
 version: "2"
-linters:
-  enable:
-    - asasalint
-    - asciicheck
-    - bidichk
-    - bodyclose
-    - contextcheck
-    - durationcheck
-    - errchkjson
-    - errorlint
-    - exhaustive
-    - gocheckcompilerdirectives
-    - gochecksumtype
-    - goconst
-    - gocritic
-    - gocyclo
-    - gosec
-    - gosmopolitan
-    - loggercheck
-    - makezero
-    - misspell
-    - musttag
-    - nakedret
-    - nilerr
-    - nilnesserr
-    - noctx
-    - prealloc
-    - protogetter
-    - reassign
-    - recvcheck
-    - rowserrcheck
-    - spancheck
-    - sqlclosecheck
-    - testifylint
-    - unconvert
-    - unparam
-    - zerologlint
-  settings:
-    dupl:
-      threshold: 100
-    errcheck:
-      check-type-assertions: false
-      check-blank: false
-      exclude-functions:
-        - fmt:.*,io/ioutil:^Read.*
-    goconst:
-      min-len: 3
-      min-occurrences: 5
-    gocritic:
-      enabled-tags:
-        - performance
-      settings:
-        captLocal:
-          paramsOnly: true
-        rangeValCopy:
-          sizeThreshold: 32
-    gocyclo:
-      min-complexity: 10
-    lll:
-      tab-width: 1
-    nakedret:
-      max-func-lines: 30
-    prealloc:
-      simple: true
-      range-loops: true
-      for-loops: false
-    unparam:
-      check-exported: false
-  exclusions:
-    generated: lax
-    rules:
-      - linters:
-          - dupl
-          - errcheck
-          - exportloopref
-          - gocyclo
-          - gosec
-          - unparam
-        path: _test(ing)?\.go
-      - linters:
-          - gocritic
-        path: _test\.go
-        text: (unnamedResult|exitAfterDefer)
-      - linters:
-          - gocritic
-        text: '(hugeParam|rangeValCopy):'
-      - linters:
-          - staticcheck
-        text: '(SA3000:|QF1008:)'
-      - linters:
-          - gosec
-        text: 'G101:'
-      - linters:
-          - gosec
-        text: 'G104:'
-      - path: apis/
-        text: "SA1019:.*scheme.Builder is deprecated"
-        linters:
-          - staticcheck
-      
-    paths:
-      - zz_generated\..+\.go$
-      - third_party$
-      - builtin$
-      - examples$
-issues:
-  max-same-issues: 0
-  new: false
+
 formatters:
   enable:
-    - gofmt
+    - gofumpt
     - goimports
+
+linters:
+  default: standard # errcheck, govet, ineffassign, staticcheck, unused
+  enable:
+    - bodyclose
+    - errorlint
+    - gosec
+    - misspell
+    - nolintlint
+    - revive
+    - unconvert
+    - usestdlibvars
   settings:
-    gofmt:
-      simplify: true
-    goimports:
-      local-prefixes:
-        - github.com/glalanne/provider-databricks
+    nolintlint:
+      # Every //nolint names the linter and says why.
+      require-specific: true
+      require-explanation: true
   exclusions:
-    generated: lax
-    paths:
-      - zz_generated\..+\.go$
-      - third_party$
-      - builtin$
-      - examples$
+    presets:
+      - comments
+      - std-error-handling
+    rules:
+      - path: _test\.go
+        linters: [gosec]
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0

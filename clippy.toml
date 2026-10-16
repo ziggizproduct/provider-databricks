@@ -1,0 +1,4 @@
+# Workspace standard, copied from ziggizproduct/arch. Do not edit in product
+# repos. Lint levels live in Cargo.toml [workspace.lints]; see the standard.
+allow-unwrap-in-tests = true
+allow-expect-in-tests = true

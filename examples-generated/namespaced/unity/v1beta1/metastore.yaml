@@ -20,7 +20,6 @@ spec:
     storageRoot: s3://${aws_s3_bucket.metastore.id}/metastore
 
 ---
-
 apiVersion: unity.databricks.m.crossplane.io/v1beta1
 kind: MetastoreAssignment
 metadata:

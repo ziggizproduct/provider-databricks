@@ -15,7 +15,7 @@ spec:
   forProvider:
     description: Databricks Job webhook trigger
     events:
-    - TRANSITION_REQUEST_CREATED
+      - TRANSITION_REQUEST_CREATED
     jobSpec:
       accessTokenSecretRef:
         key: attribute.token_value
@@ -27,7 +27,6 @@ spec:
     status: ACTIVE
 
 ---
-
 apiVersion: compute.databricks.m.crossplane.io/v1beta1
 kind: Job
 metadata:
@@ -41,18 +40,17 @@ spec:
   forProvider:
     name: Terraform MLflowWebhook Demo (${data.databricks_current_user.me.alphanumeric})
     task:
-    - newCluster:
-        nodeTypeId: ${data.databricks_node_type.smallest.id}
-        numWorkers: 1
-        sparkVersion: ${data.databricks_spark_version.latest.id}
-      notebookTask:
-        notebookPathSelector:
-          matchLabels:
-            testing.upbound.io/example-name: databricks_current_user
-      taskKey: task1
+      - newCluster:
+          nodeTypeId: ${data.databricks_node_type.smallest.id}
+          numWorkers: 1
+          sparkVersion: ${data.databricks_spark_version.latest.id}
+        notebookTask:
+          notebookPathSelector:
+            matchLabels:
+              testing.upbound.io/example-name: databricks_current_user
+        taskKey: task1
 
 ---
-
 apiVersion: workspace.databricks.m.crossplane.io/v1beta1
 kind: Notebook
 metadata:
@@ -71,7 +69,6 @@ spec:
     path: ${data.databricks_current_user.me.home}/MLFlowWebhook
 
 ---
-
 apiVersion: security.databricks.m.crossplane.io/v1beta1
 kind: Token
 metadata:

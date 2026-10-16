@@ -13,7 +13,7 @@ metadata:
 spec:
   forProvider:
     permissions:
-    - ADMIN
+      - ADMIN
     principalIdSelector:
       matchLabels:
         testing.upbound.io/example-name: data_eng
@@ -22,7 +22,6 @@ spec:
         testing.upbound.io/example-name: this
 
 ---
-
 apiVersion: security.databricks.crossplane.io/v1beta1
 kind: Group
 metadata:

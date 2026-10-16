@@ -18,7 +18,6 @@ spec:
     objectType: table
 
 ---
-
 apiVersion: unity.databricks.crossplane.io/v1beta1
 kind: Catalog
 metadata:
@@ -35,7 +34,6 @@ spec:
       purpose: testing
 
 ---
-
 apiVersion: unity.databricks.crossplane.io/v1beta1
 kind: Schema
 metadata:
@@ -55,7 +53,6 @@ spec:
       kind: various
 
 ---
-
 apiVersion: unity.databricks.crossplane.io/v1beta1
 kind: SQLTable
 metadata:
@@ -70,8 +67,8 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: example
     column:
-    - name: timestamp
-      type: int
+      - name: timestamp
+        type: int
     dataSourceFormat: DELTA
     name: bar
     schemaNameSelector:

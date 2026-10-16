@@ -103,4 +103,3 @@ func (mg *Pipeline) SetConditions(c ...xpv2.Condition) {
 func (mg *Pipeline) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
-

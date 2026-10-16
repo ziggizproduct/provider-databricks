@@ -15,10 +15,10 @@ spec:
   forProvider:
     deltaSyncIndexSpec:
       embeddingSourceColumns:
-      - embeddingModelEndpointNameSelector:
-          matchLabels:
-            testing.upbound.io/example-name: this
-        name: text
+        - embeddingModelEndpointNameSelector:
+            matchLabels:
+              testing.upbound.io/example-name: this
+          name: text
       pipelineType: TRIGGERED
       sourceTable: main.default.source_table
     endpointNameSelector:

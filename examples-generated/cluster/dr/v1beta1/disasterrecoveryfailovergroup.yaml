@@ -15,11 +15,11 @@ spec:
     failoverGroupId: accounting-failover-group
     initialPrimaryRegion: us-east-1
     regions:
-    - us-east-1
-    - us-west-2
+      - us-east-1
+      - us-west-2
     workspaceSets:
-    - name: accounting
-      replicateWorkspaceAssets: true
-      workspaceIds:
-      - "1234567890123456"
-      - "6543210987654321"
+      - name: accounting
+        replicateWorkspaceAssets: true
+        workspaceIds:
+          - "1234567890123456"
+          - "6543210987654321"

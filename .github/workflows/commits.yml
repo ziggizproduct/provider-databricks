@@ -1,0 +1,15 @@
+# Workspace standard, copied from ziggizproduct/arch. Do not edit in product
+# repos. Reports the `commits / conventional` check: the PR title, which
+# becomes the squash commit on main, must be a Conventional Commit
+# (docs/standards/engineering/commits.md in arch). `edited` re-runs it on a retitle.
+name: commits
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+permissions: {}
+
+jobs:
+  commits:
+    uses: ziggizproduct/ci/.github/workflows/commits.yml@main

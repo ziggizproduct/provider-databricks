@@ -14,8 +14,8 @@ spec:
   forProvider:
     name: main.default.online_table
     spec:
-    - primaryKeyColumns:
-      - id
-      runTriggered:
-      - {}
-      sourceTableFullName: main.default.source_table
+      - primaryKeyColumns:
+          - id
+        runTriggered:
+          - {}
+        sourceTableFullName: main.default.source_table

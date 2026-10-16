@@ -15,4 +15,4 @@ spec:
         service:
           path: /convert
       conversionReviewVersions:
-      - v1
+        - v1

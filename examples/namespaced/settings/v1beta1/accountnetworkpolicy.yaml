@@ -16,12 +16,12 @@ spec:
     egress:
       networkAccess:
         allowedInternetDestinations:
-        - destination: example.com
-          internetDestinationType: DNS_NAME
+          - destination: example.com
+            internetDestinationType: DNS_NAME
         allowedStorageDestinations:
-        - bucketName: example-aws-cloud-storage
-          region: us-west-1
-          storageDestinationType: AWS_S3
+          - bucketName: example-aws-cloud-storage
+            region: us-west-1
+            storageDestinationType: AWS_S3
         policyEnforcement:
           enforcementMode: ENFORCED
         restrictionMode: RESTRICTED_ACCESS

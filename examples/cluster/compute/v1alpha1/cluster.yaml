@@ -13,8 +13,8 @@ metadata:
 spec:
   forProvider:
     autoscale:
-    - maxWorkers: 50
-      minWorkers: 1
+      - maxWorkers: 50
+        minWorkers: 1
     autoterminationMinutes: 20
     clusterName: Shared Autoscaling
     nodeTypeId: ${data.databricks_node_type.smallest.id}

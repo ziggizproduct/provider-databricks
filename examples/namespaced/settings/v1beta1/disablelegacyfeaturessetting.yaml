@@ -17,7 +17,6 @@ spec:
       value: true
 
 ---
-
 apiVersion: settings.databricks.m.crossplane.io/v1beta1
 kind: DefaultNamespaceSetting
 metadata:

@@ -14,12 +14,12 @@ metadata:
 spec:
   forProvider:
     autoTagConfigs:
-    - autoTaggingMode: AUTO_TAGGING_ENABLED
-      classificationTag: class.credit_card
-    - autoTaggingMode: AUTO_TAGGING_ENABLED
-      classificationTag: class.email
+      - autoTaggingMode: AUTO_TAGGING_ENABLED
+        classificationTag: class.credit_card
+      - autoTaggingMode: AUTO_TAGGING_ENABLED
+        classificationTag: class.email
     includedSchemas:
       names:
-      - sales
-      - marketing
-      - customer_data
+        - sales
+        - marketing
+        - customer_data

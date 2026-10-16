@@ -135,4 +135,3 @@ func (mg *WorkspaceFile) SetConditions(c ...xpv2.Condition) {
 func (mg *WorkspaceFile) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
-

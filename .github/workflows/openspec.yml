@@ -1,0 +1,25 @@
+# Workspace standard, copied from ziggizproduct/arch. Do not edit in product
+# repos. Reports the advisory `openspec` check (docs/standards/
+# spec-driven-development.md in arch, "Enforcement"). The steps live in
+# ziggizproduct/ci's `openspec` composite action, pinned to a commit on ci's
+# main; see ci's docs/workflows/openspec.md.
+name: openspec
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  openspec:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ziggizproduct/ci/.github/actions/openspec@44b9850f7b42cde8f7b04708cbf6ebfc6a946e5e # ci main, #138

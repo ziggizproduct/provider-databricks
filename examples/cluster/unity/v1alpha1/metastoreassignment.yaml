@@ -18,7 +18,6 @@ spec:
     workspaceId: ${local.workspace_id}
 
 ---
-
 apiVersion: unity.databricks.crossplane.io/v1alpha1
 kind: Metastore
 metadata:

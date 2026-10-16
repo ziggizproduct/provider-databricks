@@ -1,0 +1,6 @@
+extends: existence
+message: "Don't reveal a point with a colon ('%s'). Write the sentence."
+level: error
+scope: sentence
+raw:
+  - "(?i)(?:^|(?<=[.!?] ))(?:The )?(?:goal|trade-?off|catch|problem|upshot|result|reason|answer|idea|point|rule|key|bottom line|net effect|short version):"

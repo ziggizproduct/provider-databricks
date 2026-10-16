@@ -16,11 +16,11 @@ spec:
       matchLabels:
         testing.upbound.io/example-name: sandbox
     column:
-    - name: id
-      type: int
-    - comment: name of thing
-      name: name
-      type: string
+      - name: id
+        type: int
+      - comment: name of thing
+        name: name
+        type: string
     comment: this table is managed by terraform
     name: quickstart_table
     provider: ${databricks.workspace}
@@ -30,7 +30,6 @@ spec:
     tableType: MANAGED
 
 ---
-
 apiVersion: unity.databricks.crossplane.io/v1alpha1
 kind: Catalog
 metadata:
@@ -47,7 +46,6 @@ spec:
       purpose: testing
 
 ---
-
 apiVersion: unity.databricks.crossplane.io/v1alpha1
 kind: Schema
 metadata:

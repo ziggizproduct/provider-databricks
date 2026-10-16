@@ -13,6 +13,6 @@ metadata:
 spec:
   forProvider:
     customTags:
-    - key: mykey
-      value: myvalue
+      - key: mykey
+        value: myvalue
     policyName: my-budget-policy

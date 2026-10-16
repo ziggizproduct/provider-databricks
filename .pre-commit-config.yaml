@@ -1,0 +1,202 @@
+# Workspace standard, copied from ziggizproduct/arch. Do not edit in product
+# repos; change it in arch and re-sync. One command, locally and in CI:
+#
+#   pre-commit run --all-files        # or --files <paths>
+#
+# Hooks fix what they can in place, then fail so you re-stage. Hooks marked
+# `language: system` use a tool you install yourself (pinned versions are in
+# the standard); they only run in repos that contain their file types.
+minimum_pre_commit_version: "4.0.0"
+default_install_hook_types: [pre-commit, commit-msg]
+# Without this, every hook below would also run on the commit message file.
+default_stages: [pre-commit, pre-push, manual]
+
+exclude: |
+  (?x)(
+    (^|/)node_modules/ |
+    (^|/)\.terraform/ |
+    (^|/)worker-configuration\.d\.ts$ |
+    (^|/)pnpm-lock\.yaml$ |
+    (^|/)uv\.lock$ |
+    (^|/)\.terraform\.lock\.hcl$ |
+    # OpenSpec tool files, committed as `openspec update` writes them.
+    (^|/)\.claude/skills/openspec-[^/]+/ |
+    (^|/)\.claude/commands/opsx/ |
+    # Applied migrations are immutable; don't touch them.
+    (^|/)migrations/.*\.sql$ |
+    # Pinned third-party copies, byte-exact against their checksums; Git LFS.
+    (^|/)compliance/sources/
+  )
+
+repos:
+  # Commit messages: Conventional Commits (docs/standards/engineering/commits.md). Keep
+  # the rev and types in step with ci's commits.yml.
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: 91ab4bf57e58b32adf1a122681f6ebe164d081c8 # frozen: v4.4.0
+    hooks:
+      - id: conventional-pre-commit
+        args: [feat, fix, docs, chore, refactor, test, ci, build, perf, revert, style]
+
+  # Every file
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c # frozen: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+        args: [--fix=lf]
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+      - id: check-toml
+      - id: detect-private-key
+
+  # JavaScript, TypeScript, JSON, CSS
+  - repo: https://github.com/biomejs/pre-commit
+    rev: 221fa73eac76e0540995318b44e2efb2774af990 # frozen: v2.5.14
+    hooks:
+      - id: biome-check
+        additional_dependencies: ["@biomejs/biome@2.5.14"]
+
+  # YAML formatting
+  - repo: https://github.com/rbubley/mirrors-prettier
+    rev: ef4a397f916211b4a39ccf9d3d9cbb6562157251 # frozen: v3.9.9
+    hooks:
+      - id: prettier
+        types: [yaml]
+        # Helm templates are Go templates, not YAML.
+        exclude: (^|/)charts/[^/]+/templates/
+
+  # Markdown (format and lint; Prettier would re-flow MkDocs admonitions)
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: 916ad0aaa108c64d294101002066f530ea170b10 # frozen: v0.23.3
+    hooks:
+      - id: markdownlint-cli2
+        args: [--fix]
+
+  # Prose style for docs (docs/standards/engineering/docs-writing.md). Rules are errors
+  # (arch#522). Config: .vale.ini, styles/Ziggiz/.
+  - repo: https://github.com/errata-ai/vale
+    rev: 2ee781716f8c177c2a143e18d535ddb11e264f00 # frozen: v3.24.0
+    hooks:
+      - id: vale
+        files: ^docs/.*\.md$
+        verbose: true
+
+  # YAML semantics (duplicate keys, truthy values)
+  - repo: https://github.com/adrienverge/yamllint
+    rev: cba56bcde1fdd01c1deb3f945e69764c291a6530 # frozen: v1.38.0
+    hooks:
+      - id: yamllint
+        args: [--strict]
+
+  # Kubernetes manifests under k8s/ (schemas incl. common CRDs)
+  - repo: local
+    hooks:
+      - id: kubeconform
+        name: kubeconform
+        language: golang
+        additional_dependencies: [github.com/yannh/kubeconform/cmd/kubeconform@v0.8.0]
+        entry: >-
+          kubeconform -strict -summary -ignore-missing-schemas
+          -schema-location default
+          -schema-location https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json
+        files: (^|/)k8s/.*\.ya?ml$
+
+  # GitHub Actions workflows (runs shellcheck on run: blocks when installed)
+  - repo: https://github.com/rhysd/actionlint
+    rev: 914e7df21a07ef503a81201c76d2b11c789d3fca # frozen: v1.7.12
+    hooks:
+      - id: actionlint
+
+  # Shell
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: a6564f5d57444e123433a5c9af733e3975c77229 # frozen: v0.11.0.1-1
+    hooks:
+      - id: shellcheck
+  - repo: https://github.com/scop/pre-commit-shfmt
+    rev: 479be5958357ba5ab65ce47172117348516860e9 # frozen: v3.14.1-1
+    hooks:
+      - id: shfmt
+        args: [-w, -i, "2", -ci]
+
+  # Python
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: a56c0b927e6465d37cae3e97d35d4d18ab2b96cd # frozen: v0.16.9
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+      - id: ruff-format
+
+  # Tools installed on the machine (see the standard for versions)
+  - repo: local
+    hooks:
+      - id: tofu-fmt
+        name: tofu fmt
+        language: system
+        entry: tofu fmt
+        files: \.(tf|tofu|tfvars|tftest\.hcl)$
+      - id: tflint
+        name: tflint
+        language: system
+        entry: bash -c 'tflint --init >/dev/null && tflint --recursive --format=compact'
+        files: \.(tf|tofu)$
+        pass_filenames: false
+      - id: helm-lint
+        name: helm lint
+        language: system
+        entry: bash -c 'git ls-files "Chart.yaml" "*/Chart.yaml" | xargs -rn1 dirname | xargs -rn1 helm lint --strict'
+        files: (^|/)charts/
+        pass_filenames: false
+      - id: golangci-lint-fmt
+        name: golangci-lint fmt
+        language: system
+        entry: golangci-lint fmt
+        types: [go]
+        pass_filenames: false
+      - id: golangci-lint
+        name: golangci-lint run
+        language: system
+        entry: golangci-lint run --fix
+        types: [go]
+        pass_filenames: false
+      - id: cargo-fmt
+        name: cargo fmt
+        language: system
+        entry: cargo fmt --all
+        types: [rust]
+        pass_filenames: false
+      - id: cargo-clippy
+        name: cargo clippy
+        language: system
+        entry: cargo clippy --workspace --all-targets --all-features -- -D warnings
+        types: [rust]
+        pass_filenames: false
+
+  # ADRs are decided when they merge; the file carries no status
+  - repo: local
+    hooks:
+      - id: adr-no-status
+        name: ADR has no Status line
+        language: pygrep
+        entry: '^\s*[-*]?\s*\**Status\**:'
+        files: (^|/)docs/adr/([a-z]+/)?\d{8}-[^/]*\.md$
+      # Docs link an issue and let GitHub show its state (work-and-decisions.md)
+      - id: docs-no-issue-status
+        name: Docs restate no issue status
+        language: pygrep
+        entry: '(issues|pull)/[0-9]+\)\s*\((open|closed|merged)\b|\b[Nn]o (epic|issue|feature) yet\b|\bNone filed yet\b|\bnot yet (tracked|filed)\b'
+        files: \.md$
+        exclude: (^|/)(docs/(adr|spikes)|openspec/changes)/|CHANGELOG\.md$
+      # arch only: rebuild AGENTS.md's managed block from its source, so the
+      # block is never copied by hand. Other repos have no standards/ folder.
+      - id: agents-block
+        name: AGENTS.md managed block matches standards/AGENTS.section.md
+        language: system
+        entry: scripts/sync-standards.sh .
+        files: ^standards/AGENTS\.section\.md$
+        pass_filenames: false

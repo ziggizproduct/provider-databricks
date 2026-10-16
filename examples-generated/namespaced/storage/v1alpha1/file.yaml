@@ -17,7 +17,6 @@ spec:
     source: /full/path/on/local/system
 
 ---
-
 apiVersion: unity.databricks.m.crossplane.io/v1alpha1
 kind: Catalog
 metadata:
@@ -36,7 +35,6 @@ spec:
       purpose: testing
 
 ---
-
 apiVersion: unity.databricks.m.crossplane.io/v1alpha1
 kind: Schema
 metadata:
@@ -57,7 +55,6 @@ spec:
       kind: various
 
 ---
-
 apiVersion: unity.databricks.m.crossplane.io/v1alpha1
 kind: Volume
 metadata:

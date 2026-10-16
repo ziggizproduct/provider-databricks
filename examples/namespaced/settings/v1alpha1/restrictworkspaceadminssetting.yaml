@@ -14,4 +14,4 @@ metadata:
 spec:
   forProvider:
     restrictWorkspaceAdmins:
-    - status: RESTRICT_TOKENS_AND_JOB_RUN_AS
+      - status: RESTRICT_TOKENS_AND_JOB_RUN_AS

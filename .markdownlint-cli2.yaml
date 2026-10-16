@@ -1,0 +1,30 @@
+# Workspace standard, copied from ziggizproduct/arch. Do not edit in product
+# repos. markdownlint-cli2 --fix is both formatter and linter for Markdown.
+# Styles are pinned (not "consistent") so there is one right answer per file.
+config:
+  default: true
+  MD003: { style: atx }
+  MD004: { style: dash }
+  # Python-Markdown (MkDocs) nests lists only at 4 spaces.
+  MD007: { indent: 4 }
+  MD035: { style: "---" }
+  MD048: { style: backtick }
+  MD049: { style: asterisk }
+  MD050: { style: asterisk }
+  MD055: { style: leading_and_trailing }
+  MD060: { style: compact }
+  # No line length limit; prose wrapping is the author's choice.
+  MD013: false
+  # Inline HTML is fine (details, br, badges).
+  MD033: false
+  # MkDocs indents the bodies of admonitions, definition lists and tabs,
+  # which markdownlint misreads as indented code blocks.
+  MD046: false
+  # MkDocs pages may start without an H1.
+  MD041: false
+  # Allow the same heading text under different parents (e.g. "Inputs").
+  MD024: { siblings_only: true }
+gitignore: true
+ignores:
+  - "**/node_modules/**"
+  - "**/CHANGELOG.md"

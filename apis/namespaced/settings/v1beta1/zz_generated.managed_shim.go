@@ -71,4 +71,3 @@ func (mg *RestrictWorkspaceAdminsSetting) SetConditions(c ...xpv2.Condition) {
 func (mg *RestrictWorkspaceAdminsSetting) SetManagementPolicies(r xpv2.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
-

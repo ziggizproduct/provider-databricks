@@ -30,7 +30,7 @@ if __name__ == "__main__":
     for name in resources:
         try:
             if base_schemas[name]["version"] != bumped_schemas[name]["version"]:
-                print(f'{name}:{base_schemas[name]["version"]}-{bumped_schemas[name]["version"]}')
+                print(f"{name}:{base_schemas[name]['version']}-{bumped_schemas[name]['version']}")
         except KeyError as ke:
-            print(f'{name} is not found in schema: {ke}')
+            print(f"{name} is not found in schema: {ke}")
             continue

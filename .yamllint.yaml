@@ -1,0 +1,28 @@
+# Workspace standard, copied from ziggizproduct/arch. Do not edit in product
+# repos. Prettier formats YAML; yamllint catches what formatting can't
+# (duplicate keys, ambiguous truthy values, bad indentation of sequences).
+extends: default
+
+ignore: |
+  charts/*/templates/
+  **/charts/*/templates/
+  pnpm-lock.yaml
+
+rules:
+  # Prettier owns layout.
+  line-length: disable
+  comments:
+    min-spaces-from-content: 1
+  comments-indentation: disable
+  document-start: disable
+  indentation:
+    spaces: 2
+    indent-sequences: consistent
+  braces:
+    max-spaces-inside: 1
+  brackets:
+    max-spaces-inside: 1
+  # `on:` in GitHub workflows is a key, not a boolean.
+  truthy:
+    allowed-values: ["true", "false"]
+    check-keys: false

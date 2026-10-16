@@ -1,0 +1,4 @@
+# Workspace standard, copied from ziggizproduct/arch. Do not edit in product
+# repos. Prettier formats only YAML here; Biome owns JS/TS/JSON/CSS and
+# markdownlint owns Markdown.
+printWidth: 120

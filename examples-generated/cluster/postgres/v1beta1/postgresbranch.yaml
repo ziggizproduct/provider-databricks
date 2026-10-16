@@ -21,7 +21,6 @@ spec:
       noExpiry: true
 
 ---
-
 apiVersion: postgres.databricks.crossplane.io/v1beta1
 kind: PostgresProject
 metadata:

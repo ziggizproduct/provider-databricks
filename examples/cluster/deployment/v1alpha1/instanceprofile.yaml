@@ -15,7 +15,6 @@ spec:
     instanceProfileArn: ${aws_iam_instance_profile.shared.arn}
 
 ---
-
 apiVersion: compute.databricks.crossplane.io/v1alpha1
 kind: Cluster
 metadata:
@@ -27,15 +26,15 @@ metadata:
 spec:
   forProvider:
     autoscale:
-    - maxWorkers: 50
-      minWorkers: 1
+      - maxWorkers: 50
+        minWorkers: 1
     autoterminationMinutes: 20
     awsAttributes:
-    - availability: SPOT
-      firstOnDemand: 1
-      instanceProfileArn: ${databricks_instance_profile.shared.id}
-      spotBidPricePercent: 100
-      zoneId: us-east-1
+      - availability: SPOT
+        firstOnDemand: 1
+        instanceProfileArn: ${databricks_instance_profile.shared.id}
+        spotBidPricePercent: 100
+        zoneId: us-east-1
     clusterName: Shared Autoscaling
     nodeTypeId: ${data.databricks_node_type.smallest.id}
     sparkVersion: ${data.databricks_spark_version.latest.id}

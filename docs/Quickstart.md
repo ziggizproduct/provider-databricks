@@ -9,11 +9,9 @@ This guide walks through the process to install the Databricks Provider.
 
 To use provider, make sure Crossplane is already deployed into your Kubernetes cluster, then install the `Provider`, apply a `ProviderConfig`, and create a *managed resource* in Databricks via Kubernetes.
 
-
 ## Install the Databricks provider-databricks
 
 Install the provider-databricks into the Kubernetes cluster with a Kubernetes configuration file.
-
 
 ```yaml
 apiVersion: pkg.crossplane.io/v1
@@ -26,7 +24,7 @@ spec:
 
 Apply this configuration with `kubectl apply -f`.
 
-After installing the provider, verify the install with `kubectl get providers`.   
+After installing the provider, verify the install with `kubectl get providers`.  
 
 ```shell
 NAME                            INSTALLED   HEALTHY   PACKAGE                                                     AGE
@@ -38,15 +36,17 @@ It may take up to 5 minutes to report `HEALTHY`.
 If you are going to use your own registry please check [Install Providers in an offline environment](https://docs.upbound.io/providers/provider-families/#installing-a-provider-family:~:text=services%20to%20install.-,Install%20Providers%20in%20an%20offline%20environment,-View%20the%20installed)
 
 ## Create a Kubernetes secret
+
 The provider requires credentials to create and manage Databricks resources.
 
-
 ### Create a Kubernetes secret with the Databricks credentials JSON file
+
 Use `kubectl create secret -n crossplane-system` to generate the Kubernetes secret object inside the Kubernetes cluster.
 
 `kubectl create secret generic databricks-secret -n crossplane-system --from-file=credentials=./dbx-credentials.json`
 
 dbx-credentials.json using a PAT
+
 ```json
 {
     "host": "https://adb-1234567890.15.azuredatabricks.net",
@@ -56,6 +56,7 @@ dbx-credentials.json using a PAT
 ```
 
 dbx-credentials.json using a service account in Azure
+
 ```json
 {
     "host": "https://adb-1234567890.15.azuredatabricks.net",
@@ -67,6 +68,7 @@ dbx-credentials.json using a service account in Azure
 ```
 
 View the secret with `kubectl describe secret`
+
 ```shell
 $ kubectl describe secret databricks-secret -n crossplane-system
 Name:         databricks-secret
@@ -80,7 +82,9 @@ Data
 ====
 credentials:  629 bytes
 ```
+
 ## Create a ProviderConfig
+
 Create a `ProviderConfig` Kubernetes configuration file to attach the Databricks credentials to the installed `provider-databricks`.
 
 ```yaml
@@ -101,7 +105,7 @@ Apply this configuration with `kubectl apply -f`.
 
 **Note:** the `Providerconfig` value `spec.secretRef.name` must match the `name` of the secret in `kubectl get secrets -n crossplane-system` and `spec.secretRef.key` must match the value in the `Data` section of the secret.
 
-Verify the `ProviderConfig` with `kubectl describe providerconfigs`. 
+Verify the `ProviderConfig` with `kubectl describe providerconfigs`.
 
 ```yaml
 $ kubectl describe providerconfigs
@@ -118,7 +122,9 @@ Spec:
       Namespace:  crossplane-system
     Source:       Secret
 ```
+
 ## Create a ClusterProviderConfig
+
 Create a `ClusterProviderConfig` Kubernetes configuration file to attach the Databricks credentials to the installed `provider-databricks`.
 
 ```yaml
@@ -139,7 +145,7 @@ Apply this configuration with `kubectl apply -f`.
 
 **Note:** the `Providerconfig` value `spec.secretRef.name` must match the `name` of the secret in `kubectl get secrets -n crossplane-system` and `spec.secretRef.key` must match the value in the `Data` section of the secret.
 
-Verify the `ProviderConfig` with `kubectl describe providerconfigs`. 
+Verify the `ProviderConfig` with `kubectl describe providerconfigs`.
 
 ```yaml
 $ kubectl describe providerconfigs
@@ -158,7 +164,8 @@ Spec:
 ```
 
 ## Create a managed resource
-Create a managed resource to verify the `provider-databricks` is functioning. 
+
+Create a managed resource to verify the `provider-databricks` is functioning.
 
 This example creates a Databricks Cluster resource in the Workspace.
 

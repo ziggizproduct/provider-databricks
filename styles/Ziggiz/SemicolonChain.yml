@@ -1,0 +1,6 @@
+extends: occurrence
+message: "Split this chain of clauses joined by semicolons into sentences."
+level: error
+scope: sentence
+max: 1
+token: ";"

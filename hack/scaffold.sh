@@ -7,14 +7,13 @@ root_folder="./config"
 rm -f ./.work/external_name.txt || true
 rm -f ./.work/provider.txt || true
 
-for resource in $resources
-do
+for resource in $resources; do
   resource_name=$(echo $resource | sed 's/databricks_//')
 
-  if [ ! -d "$root_folder/$resource_name" ] | [ ! -f  "$root_folder/$resource_name/config.go" ]; then
+  if [ ! -d "$root_folder/$resource_name" ] | [ ! -f "$root_folder/$resource_name/config.go" ]; then
     echo "Creating: $resource_name"
     mkdir "$root_folder/$resource_name"
-    cat > "$root_folder/$resource_name/config.go"  << EOF
+    cat >"$root_folder/$resource_name/config.go" <<EOF
 package $resource_name
 
 import "github.com/crossplane/upjet/v2/pkg/config"
@@ -26,10 +25,10 @@ func Configure(p *config.Provider) {
 	})
 }
 EOF
-    echo "\"$resource\":               config.IdentifierFromProvider," >> ./.work/external_name.txt
-    echo "$resource_name.Configure," >> ./.work/provider.txt
+    echo "\"$resource\":               config.IdentifierFromProvider," >>./.work/external_name.txt
+    echo "$resource_name.Configure," >>./.work/provider.txt
 
-  else 
+  else
     echo "Config exists for: $resource_name"
   fi
 done
