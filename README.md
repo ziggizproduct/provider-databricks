@@ -1,3 +1,5 @@
+> **Ziggiz fork, temporary.** This is a patched build of [glalanne/provider-databricks](https://github.com/glalanne/provider-databricks) v2.5.3 with one change: `databricks_budget_policy` uses `policy_id` as its external name (upstream [issue #142](https://github.com/glalanne/provider-databricks/issues/142), [PR #143](https://github.com/glalanne/provider-databricks/pull/143)). `.github/workflows/ziggiz-publish.yml` pushes the multi-arch package to our ECR. **Exit:** when upstream releases the fix, pin ziggiz-platform's `charts/provider-databricks/templates/provider.yaml` to the upstream package by digest and archive this fork.
+
 
 # Provider Databricks
 
